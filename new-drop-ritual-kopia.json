@@ -1,0 +1,25 @@
+{
+  "schema": "northstar-creative-v1",
+  "exportedAt": "2026-10-03T03:18:04.489Z",
+  "platform": "meta",
+  "format": "feed-square",
+  "product": null,
+  "dropshipping": {
+    "vendor": "Ritual Objects",
+    "shipping": "Leverans inom 3–5 dagar",
+    "price": "",
+    "priceLabel": "",
+    "discountPercent": 0,
+    "sourceStore": "shopify"
+  },
+  "creative": {
+    "brand": "Ritual Objects",
+    "headline": "Små ritualer. Stor skillnad.",
+    "body": "Designad för ditt tempo. Upptäck vår nya kollektion.",
+    "callToAction": "Läs mer",
+    "destinationUrl": "",
+    "mediaFile": "Ritual-editorial.jpg",
+    "mediaUrl": "",
+    "sourceReference": null
+  }
+}
