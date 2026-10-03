@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#171a16">
+<title>Agent Flow</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<style>
+:root{--bg:#10130f;--card:#1b1f19;--line:#2c3228;--ink:#f4f6ef;--muted:#9aa392;--lime:#c6e35a;--lime2:#9bc43a;--danger:#e07a6a}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit;color:inherit}
+.app{max-width:480px;margin:0 auto;min-height:100dvh;padding:18px 16px 96px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800}
+.logo{width:36px;height:36px;border-radius:10px;background:#20231f;color:var(--lime);display:grid;place-items:center;font-weight:900;border:1px solid #34392f}
+.ey{display:block;font-size:10px;letter-spacing:.16em;color:var(--muted);font-weight:600}
+.pill{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--lime)}
+h1{font-size:26px;margin:4px 0 6px}h2{font-size:18px;margin:0 0 8px}.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;gap:10px}.two{grid-template-columns:1fr 1fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.card b{display:block}
+.ok{color:var(--lime2)}.bad{color:var(--danger)}
+.nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(448px,calc(100% - 20px));background:#1a1e18ee;backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;display:grid;grid-template-columns:repeat(4,1fr);padding:6px}
+.nav button{background:transparent;border:0;color:var(--muted);padding:8px 4px;border-radius:12px}
+.nav button.on{background:#2a3124;color:var(--lime)}
+.screen{display:none}.screen.on{display:block}
+label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}
+input,textarea,select{width:100%;background:#121510;border:1px solid var(--line);border-radius:12px;padding:12px}
+textarea{min-height:84px;resize:vertical}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.btn{border:0;border-radius:12px;padding:12px 14px;background:var(--lime);color:#17200c;font-weight:800}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.full{width:100%;margin-top:10px}
+.chat{display:flex;flex-direction:column;gap:8px;min-height:46dvh}
+.bubble{padding:10px 12px;border-radius:14px;max-width:92%}
+.me{align-self:flex-end;background:#31401f}
+.bot{align-self:flex-start;background:#242922;border:1px solid var(--line)}
+.phone{width:180px;height:340px;margin:8px auto;border:7px solid #252722;border-radius:28px;background:linear-gradient(#6f7268,#b7b6ad 50%,#3e403c);position:relative;overflow:hidden}
+.phone .tag{position:absolute;top:12px;left:12px;font-size:10px;letter-spacing:.12em}
+.phone .h{position:absolute;left:12px;right:12px;bottom:62px;font-weight:800}
+.phone .cta{position:absolute;left:12px;right:12px;bottom:14px;background:#fff;color:#222;text-align:center;border-radius:8px;padding:8px;font-weight:800;font-size:13px}
+.ad{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:#141814;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px}
+.thumb{width:28px;height:36px;border-radius:5px;background:#c98d70}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:#f4f6ef;color:#17200c;padding:10px 14px;border-radius:12px;display:none;font-weight:700;z-index:5}
+small.help{display:block;color:var(--muted);margin-top:6px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><div class="brand"><span class="logo">A</span><span>Agent Flow<i class="ey">MOBIL · NORTHSTAR</i></span></div><span class="pill" id="live">Lokalt</span></div>
+  <section id="home" class="screen on">
+    <div class="muted">STUDIO SOL</div>
+    <h1>Gör annonser. Styr butiken.</h1>
+    <p class="muted">Samma idé som Northstar Creative OS, i fickan. Koppla Shopify som chattgrind och spara Meta, TikTok och YouTube så du kan bygga utkast direkt.</p>
+    <div class="grid two" id="status"></div>
+    <div class="card" style="margin-top:10px"><b>Lägg på hemskärmen</b><p class="muted">iPhone: Dela → Lägg till på hemskärmen. Android: menyn → Installera app / Lägg till på startskärmen.</p></div>
+  </section>
+  <section id="chat" class="screen">
+    <h2>Shopify-chatt</h2>
+    <p class="muted">Grinden mot butiken. Fråga om produkter, ordrar, lager eller be om en annons från en vara.</p>
+    <div class="chat" id="log"></div>
+    <div class="row" style="margin-top:10px"><input id="msg" placeholder="T.ex. gör en TikTok för new drop"><button class="btn" id="send">Skicka</button></div>
+    <div class="row" style="margin-top:8px"><button class="btn ghost" data-q="Sammanfatta dagens ordrar">Ordrar</button><button class="btn ghost" data-q="Skriv en Meta-annons för bästsäljaren">Meta-annons</button></div>
+  </section>
+  <section id="studio" class="screen">
+    <h2>Annonsverkstad</h2>
+    <div class="row"><select id="platform"><option>TikTok</option><option>Meta</option><option>YouTube</option></select><select id="cta"><option>Handla nu</option><option>Läs mer</option><option>Köp</option></select></div>
+    <label>Varumärke</label><input id="brand" value="Studio Sol">
+    <label>Rubrik</label><input id="headline" value="Det här är den som går hem.">
+    <label>Annonstext</label><textarea id="body">New drop från Studio Sol. Snabb leverans och enkelt köpflöde.</textarea>
+    <label>Landningssida</label><input id="url" placeholder="https://din-butik.myshopify.com">
+    <div class="phone"><div class="tag">SPONSRAD</div><div class="h" id="prevH">Det här är den som går hem.</div><div class="cta" id="prevC">Handla nu</div></div>
+    <button class="btn full" id="saveAd">Spara utkast</button>
+    <div id="ads"></div>
+  </section>
+  <section id="connect" class="screen">
+    <h2>Kopplingar</h2>
+    <p class="muted">Nycklarna stannar i den här telefonen. Riktig publicering kräver att du skapar apparna hos Meta, TikTok, Google och Shopify — det kan inte godkännas härifrån.</p>
+    <div class="card"><b>Shopify</b><span class="muted">Admin API, chattgrinden</span><label>Butik</label><input id="shop" placeholder="namn.myshopify.com"><label>Admin-token</label><input id="shtok" placeholder="shpat_..." type="password"><button class="btn full" data-save="shopify">Spara Shopify</button><small class="help">Shopify-admin → Appar → Utveckla appar → Agent Flow. Scopes: read/write products, orders, inventory.</small></div>
+    <div class="card" style="margin-top:10px"><b>Meta Ads</b><label>Ad account ID</label><input id="metaAcc" placeholder="act_123"><label>Access token</label><input id="metaTok" type="password" placeholder="EAA..."><button class="btn full" data-save="meta">Spara Meta</button><small class="help">developers.facebook.com → app med Marketing API och ads_management.</small></div>
+    <div class="card" style="margin-top:10px"><b>TikTok Ads</b><label>Advertiser ID</label><input id="ttId" placeholder="advertiser id"><label>Access token</label><input id="ttTok" type="password"><button class="btn full" data-save="tiktok">Spara TikTok</button><small class="help">business-api.tiktok.com → app med Ads Management.</small></div>
+    <div class="card" style="margin-top:10px"><b>YouTube</b><label>Kanal</label><input id="ytCh" placeholder="@kanal"><label>API-nyckel eller OAuth-token</label><input id="ytTok" type="password"><button class="btn full" data-save="youtube">Spara YouTube</button><small class="help">Google Cloud → YouTube Data API. Uppladdning kräver OAuth, inte bara API-nyckel.</small></div>
+  </section>
+</div>
+<nav class="nav"><button class="on" data-tab="home">Hem</button><button data-tab="chat">Chatt</button><button data-tab="studio">Studio</button><button data-tab="connect">Koppla</button></nav>
+<div class="toast" id="toast"></div>
+<script>
+const KEY="agentflow-mobile-v1";
+const state=JSON.parse(localStorage.getItem(KEY)||"{}");
+state.connections=state.connections||{};
+state.ads=state.ads||[{platform:"TikTok",brand:"Studio Sol",headline:"Återskapad annons — variant",body:"Hitta droppen från Studio Sol.",cta:"Handla nu",url:""},{platform:"Meta",brand:"Studio Sol",headline:"New drop — Ritual",body:"Ritual-kopia, redo för Meta.",cta:"Handla nu",url:""}];
+state.chat=state.chat||[{from:"bot",text:"Jag är chattgrinden. Koppla Shopify under Koppla, eller be mig skriva en annons som i Northstar."}];
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function toast(t){const e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(()=>e.style.display="none",1600)}
+function connected(name){const c=state.connections[name];return c&&Object.values(c).some(Boolean)}
+function renderStatus(){const items=[["Shopify","shopify"],["Meta Ads","meta"],["TikTok","tiktok"],["YouTube","youtube"]];document.getElementById("status").innerHTML=items.map(([l,k])=>`<div class="card"><b>${l}</b><span class="${connected(k)?"ok":"bad"}">${connected(k)?"Kopplad på enheten":"Inte kopplad"}</span></div>`).join("");document.getElementById("live").textContent=connected("shopify")?"Butik sparad":"Lokalt"}
+function renderChat(){document.getElementById("log").innerHTML=state.chat.map(m=>`<div class="bubble ${m.from==="me"?"me":"bot"}">${m.text}</div>`).join("")}
+function renderAds(){document.getElementById("ads").innerHTML=state.ads.map((a,i)=>`<button class="ad" data-i="${i}"><i class="thumb"></i><span><b>${a.headline}</b><span class="muted">${a.platform} · Utkast</span></span></button>`).join("")}
+function fill(a){brand.value=a.brand;headline.value=a.headline;body.value=a.body;cta.value=a.cta;url.value=a.url||"";platform.value=a.platform;preview()}
+function preview(){document.getElementById("prevH").textContent=headline.value;document.getElementById("prevC").textContent=cta.value}
+function reply(q){const shop=state.connections.shopify||{};const has=shop.shop&&shop.token;let text;if(/annons|tiktok|meta|youtube|drop/i.test(q)){const platform=/meta/i.test(q)?"Meta":/youtube/i.test(q)?"YouTube":"TikTok";const ad={platform,brand:brand.value||"Studio Sol",headline:"New drop — från chatten",body:q,cta:"Handla nu",url:shop.shop?`https://${shop.shop}`:""};state.ads.unshift(ad);fill(ad);text=`Utkast klart för ${platform}. Öppna Studio för att finputsa. Publicering sker först när ${platform}-kopplingen har ett giltigt token från deras annons-API.`;}else if(/order|lager|produkt|kund|rea/i.test(q)){text=has?`Butiken ${shop.shop} är sparad på telefonen. Jag kan förbereda åtgärden “${q}”, men Shopify Admin API blockerar anrop direkt från webbläsaren. Kör Agent Flow-servern (npm start) och lägg samma token där för riktiga ordrar och lager.`:`Koppla Shopify först: butiksadress plus Admin API-token (shpat_…).`;}else text="Säg till om jag ska göra en Meta-, TikTok- eller YouTube-annons, eller sammanfatta butiken när Shopify är kopplad.";state.chat.push({from:"bot",text});save();renderChat();renderAds()}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("on"));document.querySelectorAll(".screen").forEach(x=>x.classList.remove("on"));b.classList.add("on");document.getElementById(b.dataset.tab).classList.add("on")});
+document.getElementById("send").onclick=()=>{const q=msg.value.trim();if(!q)return;state.chat.push({from:"me",text:q});msg.value="";save();renderChat();reply(q)};
+document.getElementById("msg").onkeydown=e=>{if(e.key==="Enter")document.getElementById("send").click()};
+document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{msg.value=b.dataset.q;document.getElementById("send").click()});
+["headline","cta"].forEach(id=>document.getElementById(id).oninput=preview);
+document.getElementById("saveAd").onclick=()=>{state.ads.unshift({platform:platform.value,brand:brand.value,headline:headline.value,body:body.value,cta:cta.value,url:url.value});save();renderAds();toast("Utkast sparat på telefonen")};
+document.getElementById("ads").onclick=e=>{const b=e.target.closest("[data-i]");if(!b)return;fill(state.ads[+b.dataset.i]);toast("Annons öppnad")};
+document.querySelectorAll("[data-save]").forEach(b=>b.onclick=()=>{const k=b.dataset.save;const map={shopify:{shop:shop.value.trim(),token:shtok.value.trim()},meta:{account:metaAcc.value.trim(),token:metaTok.value.trim()},tiktok:{account:ttId.value.trim(),token:ttTok.value.trim()},youtube:{channel:ytCh.value.trim(),token:ytTok.value.trim()}};state.connections[k]=map[k];save();renderStatus();toast(k+" sparad lokalt")});
+const c=state.connections;if(c.shopify){shop.value=c.shopify.shop||"";shtok.value=c.shopify.token||""}if(c.meta){metaAcc.value=c.meta.account||"";metaTok.value=c.meta.token||""}if(c.tiktok){ttId.value=c.tiktok.account||"";ttTok.value=c.tiktok.token||""}if(c.youtube){ytCh.value=c.youtube.channel||"";ytTok.value=c.youtube.token||""}
+renderStatus();renderChat();renderAds();preview();
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
+</script>
+</body>
+</html>
