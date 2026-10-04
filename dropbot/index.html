@@ -3,75 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#11110f">
 <title>Dropbot</title>
 <style>
 body { margin:0; font-family:-apple-system,sans-serif; background:#11110f; color:#f6f3ea; }
 main { padding:16px; max-width:640px; margin:auto; }
-h1 { margin:0 0 6px; }
-p, small { color:#b7b1a4; line-height:1.4; }
 .card { background:#1c1b17; border:1px solid #2e2c26; border-radius:16px; padding:14px; margin:12px 0; }
 input, textarea { width:100%; box-sizing:border-box; background:#14140f; color:#f6f3ea; border:1px solid #2e2c26; border-radius:12px; padding:12px; font-size:16px; margin-top:8px; }
 button, a.btn { display:block; width:100%; text-align:center; text-decoration:none; background:#d6ff4a; color:#16160f; border:0; border-radius:14px; padding:14px; font-weight:700; margin-top:8px; }
-button.ghost, a.ghost { background:transparent; color:#f6f3ea; border:1px solid #2e2c26; }
-.ok { color:#b6f5a8; }
+p { color:#b7b1a4; }
 </style>
 </head>
 <body>
 <main>
 <h1>Dropbot</h1>
-<p>Samma jobb som boten: hitta vara, räkna marginal, gör egen annons, varna för EU. Publicerar inget och drar inga pengar.</p>
+<p>Gemini är motorn. 0 kr. Ingen nyckel.</p>
 <section class="card">
-<a class="btn" href="https://accounts.google.com/AccountChooser">Fortsätt med Google</a>
-<input id="mail" placeholder="Mejl efter inloggning">
-<button class="ghost" id="save">Spara på luren</button>
-<p id="who" class="ok"></p>
-</section>
-<section class="card">
-<strong>Vara</strong>
+<a class="btn" href="https://gemini.google.com/app">Öppna Gemini</a>
 <input id="namn" value="Självrengörande pälsroller">
-<input id="in" placeholder="Inköp kr" value="40">
-<input id="ut" placeholder="Säljpris kr" value="179">
-<input id="frakt" placeholder="Frakt kr" value="49">
-<button id="rakna">Räkna</button>
-<p id="marg"></p>
+<input id="pris" value="179 kr">
+<textarea id="ref" rows="3">Före/efter på soffan. Hook direkt.</textarea>
+<button id="go">Kopiera prompt och öppna Gemini</button>
+<p id="msg"></p>
 </section>
 <section class="card">
-<strong>Annons, egen text</strong>
-<textarea id="ref" rows="3">Före/efter på soffan. Hook direkt. Inte en kopia.</textarea>
-<button id="go">Gör tre annonser</button>
-<div id="out"></div>
-</section>
-<section class="card">
-<strong>EU</strong>
-<p>Ingen mat, inget godis, ingen medicin. Elektronik bara med CE. Någon i EU ska stå på paketet.</p>
-<a class="btn ghost" href="https://cjdropshipping.com">Leverantör, gratis konto</a>
-<a class="btn ghost" href="https://labs.google.com/pomelli">Pomelli</a>
+<a class="btn" href="https://labs.google.com/pomelli">Pomelli, bilder</a>
 </section>
 </main>
 <script>
-const key = "dropbot";
-const mail = document.getElementById("mail");
-const who = document.getElementById("who");
-const s = JSON.parse(localStorage.getItem(key) || "{}");
-if (s.mail) { mail.value = s.mail; who.textContent = "Sparat: " + s.mail; }
-document.getElementById("save").onclick = () => {
-  localStorage.setItem(key, JSON.stringify({ mail: mail.value }));
-  who.textContent = mail.value ? "Sparat på telefonen: " + mail.value : "";
-};
-document.getElementById("rakna").onclick = () => {
-  const inn = Number(document.getElementById("in").value) || 0;
-  const ut = Number(document.getElementById("ut").value) || 0;
-  const fr = Number(document.getElementById("frakt").value) || 0;
-  const kvar = ut - inn - fr;
-  document.getElementById("marg").textContent = kvar > 40 ? "Kvar efter inköp och frakt: " + kvar + " kr. Värt att testa." : "Kvar: " + kvar + " kr. För lite.";
-};
-document.getElementById("go").onclick = () => {
-  const n = document.getElementById("namn").value;
-  const p = document.getElementById("ut").value + " kr";
-  const ads = [n + ". " + p + ". Pälsen sitter kvar i soffan. Egen text.", "10 sekunder, sen är det borta. Länken i bio.", "Inte en ny borste. En ren soffa. " + document.getElementById("ref").value];
-  document.getElementById("out").innerHTML = ads.map(a => "<p>" + a + "</p>").join("") + "<button class='ghost' id='copy'>Kopiera</button>";
-  document.getElementById("copy").onclick = () => navigator.clipboard.writeText(ads.join("\n\n"));
+document.getElementById("go").onclick = async () => {
+  const text = "Skriv på svenska. Hitta inte på fakta. Gör tre egna annonser, inte kopior.\nProdukt: " + document.getElementById("namn").value + "\nPris: " + document.getElementById("pris").value + "\nUpplägg från en annons som går: " + document.getElementById("ref").value + "\nVarje annons: hook, 2 meningar, avslut med länken i bio. Säg till om produkten kan kräva CE eller vara otillåten i EU.";
+  await navigator.clipboard.writeText(text);
+  document.getElementById("msg").textContent = "Kopierad. Klistra in i Gemini.";
+  window.open("https://gemini.google.com/app", "_blank");
 };
 </script>
 </body>
