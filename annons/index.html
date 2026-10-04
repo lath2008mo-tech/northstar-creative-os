@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#11110f">
+<title>Annonsklon</title>
+<style>
+body { margin:0; font-family:-apple-system,sans-serif; background:#11110f; color:#f6f3ea; }
+main { padding:16px; max-width:640px; margin:auto; }
+h1 { margin:0 0 6px; font-size:1.5rem; }
+p, small { color:#b7b1a4; line-height:1.4; }
+.card { background:#1c1b17; border:1px solid #2e2c26; border-radius:16px; padding:14px; margin:12px 0; }
+input, textarea { width:100%; box-sizing:border-box; background:#14140f; color:#f6f3ea; border:1px solid #2e2c26; border-radius:12px; padding:12px; font-size:16px; margin-top:8px; }
+button, a.btn { display:block; width:100%; text-align:center; text-decoration:none; background:#d6ff4a; color:#16160f; border:0; border-radius:14px; padding:14px; font-weight:700; margin-top:8px; }
+button.ghost { background:transparent; color:#f6f3ea; border:1px solid #2e2c26; }
+.ad { aspect-ratio:9/16; max-height:420px; border-radius:18px; background:linear-gradient(160deg,#243024,#111); padding:18px; display:flex; flex-direction:column; justify-content:flex-end; margin-top:12px; }
+.ad b { font-size:1.4rem; color:#d6ff4a; }
+</style>
+</head>
+<body>
+<main>
+<h1>Annonsklon</h1>
+<p>Samma idé som Promer: ta strukturen från en annons som går bra, gör en egen. Inte en kopia.</p>
+<section class="card">
+<a class="btn" href="https://accounts.google.com/AccountChooser?continue=https://lath2008mo-tech.github.io/northstar-creative-os/annons/">Fortsätt med Google</a>
+<small>Öppnar Googles egen inloggning. Lösenord sparas inte här.</small>
+<input id="mail" placeholder="Din mejl efter inloggning">
+<button class="ghost" id="save">Spara på luren</button>
+<p id="who"></p>
+</section>
+<section class="card">
+<strong>1. Din produkt</strong>
+<input id="namn" placeholder="Produktnamn" value="Självrengörande pälsroller">
+<input id="pris" placeholder="Pris" value="179 kr">
+</section>
+<section class="card">
+<strong>2. Annonsen du såg</strong>
+<textarea id="ref" rows="4">Före/efter på soffan. Hook i första sekunden. En hand visar borsten.</textarea>
+</section>
+<button id="go">Gör tre egna</button>
+<section class="card" id="out"></section>
+</main>
+<script>
+const key = "annonsklon";
+const mail = document.getElementById("mail");
+const who = document.getElementById("who");
+const saved = JSON.parse(localStorage.getItem(key) || "{}");
+if (saved.mail) { mail.value = saved.mail; who.textContent = "Inloggad som " + saved.mail; }
+document.getElementById("save").onclick = () => {
+  localStorage.setItem(key, JSON.stringify({ mail: mail.value }));
+  who.textContent = mail.value ? "Sparat på den här telefonen: " + mail.value : "";
+};
+document.getElementById("go").onclick = () => {
+  const n = document.getElementById("namn").value || "produkten";
+  const p = document.getElementById("pris").value || "";
+  const r = document.getElementById("ref").value || "före och efter";
+  const ads = [
+    ["Pälsen sitter kvar i soffan.", n + ". " + p + ". Samma före/efter-grepp, egen text."],
+    ["10 sekunder. Sen är det borta.", "Visa handen. Avsluta med länken i bio."],
+    ["Inte en ny borste. En ren soffa.", "Vinkeln kommer från: " + r]
+  ];
+  document.getElementById("out").innerHTML = ads.map(a => "<div class='ad'><b>" + a[0] + "</b><p>" + a[1] + "</p><p>" + n + " · " + p + "</p></div>").join("") + "<button class='ghost' id='copy'>Kopiera texterna</button>";
+  document.getElementById("copy").onclick = () => navigator.clipboard.writeText(ads.map(a => a.join("\n")).join("\n\n"));
+};
+</script>
+</body>
+</html>
