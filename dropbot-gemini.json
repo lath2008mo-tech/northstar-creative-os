@@ -1,0 +1,51 @@
+{
+  "name": "Dropbot gratis Gemini",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "t1",
+      "name": "Starta sjalv",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "a1", "name": "produkt", "value": "Sjalvrengorande palsroller", "type": "string"},
+            {"id": "a2", "name": "pris", "value": "179 kr", "type": "string"},
+            {"id": "a3", "name": "upplagg", "value": "Fore och efter pa soffan. Hook direkt. Inte en kopia.", "type": "string"},
+            {"id": "a4", "name": "geminiKey", "value": "KLISTRA_IN_GRATIS_NYCKEL_FRAN_AISTUDIO", "type": "string"}
+          ]
+        }
+      },
+      "id": "s1",
+      "name": "Produkt",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={{$json.geminiKey}}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"contents\":[{\"parts\":[{\"text\":\"Skriv pa svenska. Hitta inte pa fakta. Gor tre egna annonser, inte kopior. Produkt: {{$json.produkt}}. Pris: {{$json.pris}}. Upplagg: {{$json.upplagg}}. Varje annons: hook, tva meningar, lank i bio. Skriv om den kan krava CE eller vara otillaten i EU. Publicera inget.\"}]}]}",
+        "options": {}
+      },
+      "id": "g1",
+      "name": "Gemini gratis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 300]
+    }
+  ],
+  "connections": {
+    "Starta sjalv": {"main": [[{"node": "Produkt", "type": "main", "index": 0}]]},
+    "Produkt": {"main": [[{"node": "Gemini gratis", "type": "main", "index": 0}]]}
+  },
+  "pinData": {},
+  "meta": {"templateCredsSetupCompleted": false}
+}
