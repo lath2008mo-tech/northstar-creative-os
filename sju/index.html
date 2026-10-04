@@ -3,28 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Annons</title>
+<title>Flödet</title>
 <style>
 body { margin:0; font-family:-apple-system,sans-serif; background:#fff; color:#111; }
-main { padding:20px; max-width:480px; margin:auto; }
-a, button { display:block; text-align:center; text-decoration:none; background:#111; color:#fff; border:0; border-radius:12px; padding:16px; font-size:18px; margin:12px 0; }
-p { font-size:18px; }
+main { padding:16px; max-width:520px; margin:auto; }
+ol { padding-left:20px; }
+li { margin:16px 0; font-size:18px; }
+a { display:inline-block; margin-top:6px; }
 </style>
 </head>
 <body>
 <main>
-<h1>Tre steg</h1>
-<p>Pälsroller. 179 kr.</p>
-<a href="https://gemini.google.com/app">1. Skriv texten i Gemini</a>
-<a href="https://labs.google.com/pomelli">2. Gör bilden i Pomelli</a>
-<button id="go">3. Kopiera texten</button>
-<p id="msg"></p>
+<h1>Samma som videon</h1>
+<p>Logga in med Google. Gå uppifrån. Publicera inget.</p>
+<ol>
+<li>NotebookLM. Ladda upp texten. Få en kort video.<br><a href="https://notebooklm.google.com">Öppna</a></li>
+<li>Opal. Bygg flödet med ord. Stänger 17 november 2026.<br><a href="https://opal.google">Öppna</a></li>
+<li>Pomelli. Klistra in sajten. Den gör inlägg.<br><a href="https://labs.google.com/pomelli">Öppna</a></li>
+<li>Gemini Canvas. Gör en presentation.<br><a href="https://gemini.google.com/app">Öppna</a></li>
+<li>Stitch. Rita appsidan.<br><a href="https://stitch.withgoogle.com">Öppna</a></li>
+<li>AI Studio Build. Gör den till en app.<br><a href="https://aistudio.google.com/apps">Öppna</a></li>
+<li>Nano Banana i Gemini. Gör bilden.<br><a href="https://gemini.google.com/app">Öppna</a></li>
+</ol>
 </main>
-<script>
-document.getElementById("go").onclick = async () => {
-  await navigator.clipboard.writeText("Pälsen sitter kvar i soffan. En roller, 179 kr. Länken i bio.");
-  document.getElementById("msg").textContent = "Kopierad.";
-};
-</script>
 </body>
 </html>
