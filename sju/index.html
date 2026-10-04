@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sju verktyg</title>
+<style>
+body { margin:0; font-family:-apple-system,sans-serif; background:#11110f; color:#f6f3ea; }
+main { padding:16px; max-width:640px; margin:auto; }
+p { color:#b7b1a4; }
+.card { background:#1c1b17; border:1px solid #2e2c26; border-radius:16px; padding:14px; margin:12px 0; }
+a { color:#d6ff4a; }
+button { width:100%; background:#d6ff4a; color:#16160f; border:0; border-radius:12px; padding:12px; font-weight:700; margin-top:8px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Sju verktyg, en annons</h1>
+<p>Samma kedja som i videon. Gratis, Google-inloggning. Produkten är pälsrollern, 179 kr. Inget publiceras automatiskt.</p>
+<section class="card"><strong>1. NotebookLM</strong><p>Ladda upp produkttexten. Få en kort videoöversikt.</p><a href="https://notebooklm.google.com">Öppna</a></section>
+<section class="card"><strong>2. Opal</strong><p>Bygg ett miniflöde med ord: produkt in, tre annonstexter ut.</p><a href="https://opal.google">Öppna</a></section>
+<section class="card"><strong>3. Pomelli</strong><p>Klistra in butikslänken. Den tar färger och gör inlägg.</p><a href="https://labs.google.com/pomelli">Öppna</a></section>
+<section class="card"><strong>4. Gemini Canvas</strong><p>Gör en presentation av annonsen.</p><a href="https://gemini.google.com/app">Öppna</a></section>
+<section class="card"><strong>5. Stitch</strong><p>Rita en enkel appsida för butiken.</p><a href="https://stitch.withgoogle.com">Öppna</a></section>
+<section class="card"><strong>6. AI Studio Build</strong><p>Gör sidan till en riktig app. Kan ta in Stitch.</p><a href="https://aistudio.google.com/apps">Öppna</a></section>
+<section class="card"><strong>7. Bild i Gemini</strong><p>Nano Banana ligger i Gemini. Be om en före/efter-bild, inte en kopia.</p><button id="go">Kopiera prompt</button><p id="msg"></p></section>
+</main>
+<script>
+document.getElementById("go").onclick = async () => {
+  const t = "Gör en egen annonsbild, 9:16, svenska. Produkt: självrengörande pälsroller, 179 kr. Soffa med päls, en hand drar en roller, sen ren yta. Text: Pälsen sitter kvar i soffan. Inte en kopia av en befintlig annons. Ingen logga.";
+  await navigator.clipboard.writeText(t);
+  document.getElementById("msg").textContent = "Kopierad. Klistra in i Gemini.";
+  window.open("https://gemini.google.com/app", "_blank");
+};
+</script>
+</body>
+</html>
