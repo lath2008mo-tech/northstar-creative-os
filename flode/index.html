@@ -2,73 +2,103 @@
 <html lang="sv">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#11110f">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg">
-<title>Flödet</title>
+<title>Vardigo flöde</title>
 <style>
 :root { --bg:#11110f; --card:#1c1b17; --line:#2e2c26; --text:#f6f3ea; --muted:#b7b1a4; --acc:#d6ff4a; }
-* { box-sizing: border-box; }
-body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg); color:var(--text); }
-header { padding:22px 16px 8px; }
-h1 { margin:0; font-size:1.6rem; }
-p { color:var(--muted); line-height:1.4; }
-main { padding:0 14px 40px; }
-label { display:block; font-size:.8rem; margin:12px 0 6px; color:var(--muted); }
-input { width:100%; background:#14140f; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:12px; font-size:16px; }
-button, a.btn { display:block; width:100%; text-align:center; text-decoration:none; background:var(--acc); color:#16160f; border:0; border-radius:14px; padding:14px; font-weight:700; margin:8px 0; font-size:1rem; }
-button.ghost { background:transparent; color:var(--text); border:1px solid var(--line); }
-.card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; margin:12px 0; }
-.ok { color:#b6f5a8; font-size:.85rem; }
-.step { display:flex; gap:10px; align-items:flex-start; }
-.n { width:28px; height:28px; border-radius:50%; background:#2a291f; color:var(--acc); display:grid; place-items:center; font-weight:700; flex:none; }
-small { color:var(--muted); }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,sans-serif; background:var(--bg); color:var(--text); }
+header, main { padding:18px 14px; }
+h1 { margin:0 0 6px; font-size:1.45rem; }
+p, small { color:var(--muted); line-height:1.4; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; margin:0 0 12px; }
+button, a.btn { display:block; width:100%; text-align:center; text-decoration:none; background:var(--acc); color:#16160f; border:0; border-radius:14px; padding:14px; font-weight:700; margin-top:8px; }
+button.ghost, a.ghost { background:transparent; color:var(--text); border:1px solid var(--line); }
+select, textarea { width:100%; background:#14140f; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:12px; font-size:16px; }
+img { width:100%; border-radius:12px; margin-top:8px; max-height:220px; object-fit:cover; }
+.ok { color:#b6f5a8; }
 </style>
 </head>
 <body>
 <header>
-<h1>Flödet</h1>
-<p>Öppna på luren. Koppla med Google. Ingen API-nyckel klistras in här.</p>
+<h1>Vardigo</h1>
+<p>Dropshipping-flöde. Ett ställe. Logga in med lath2008mo@gmail.com. Ingen nyckel.</p>
 </header>
 <main>
 <section class="card">
-<button id="install">Lägg på hemskärmen</button>
-<p id="installHelp">iPhone: Dela-knappen, Lägg till på hemskärmen. Android: menyn, Installera app.</p>
-<a class="btn" href="https://accounts.google.com/AccountChooser?continue=https://notebooklm.google.com">Koppla med Google</a>
-<small>Det öppnar Googles egen inloggning. Appen sparar inte ditt lösenord.</small>
+<strong>1. Butiken</strong>
+<p>Shopify har ingen Google-knapp härifrån. Samma mejl, på Shopifys egen sida.</p>
+<a class="btn" href="https://admin.shopify.com/store/vardigo">Öppna Shopify</a>
+<a class="btn ghost" href="https://vardigo.myshopify.com/">Öppna butiken</a>
 </section>
 <section class="card">
-<label>Ämne</label><input id="amne" placeholder="Vad videon handlar om">
-<label>Sajt</label><input id="sajt" placeholder="https://">
-<label>Målgrupp</label><input id="mal" placeholder="Vilka du pratar med">
-<button id="save">Spara på luren</button>
-<p class="ok" id="saved"></p>
+<strong>2. Välj produkt</strong>
+<select id="prod"></select>
+<img id="pic" alt="">
+<p id="price"></p>
 </section>
-<section class="card step"><div class="n">1</div><div><strong>NotebookLM</strong><p>Briefing från dina källor.</p><a class="btn" id="b1" href="https://notebooklm.google.com">Öppna och koppla</a></div></section>
-<section class="card step"><div class="n">2</div><div><strong>Opal</strong><p>Doc, vinklar och sida.</p><a class="btn" id="b2" href="https://opal.google">Öppna och koppla</a></div></section>
-<section class="card step"><div class="n">3</div><div><strong>Pomelli</strong><p>Varumärke från sajten.</p><a class="btn" id="b3" href="https://labs.google/pomelli">Öppna och koppla</a></div></section>
-<section class="card step"><div class="n">4</div><div><strong>Gemini</strong><p>Bild och slides, samma Google-konto.</p><a class="btn" id="b4" href="https://gemini.google.com/app">Öppna Gemini</a></div></section>
-<section class="card step"><div class="n">5</div><div><strong>Stitch</strong><p>App-skärmar.</p><a class="btn" id="b5" href="https://stitch.withgoogle.com">Öppna Stitch</a></div></section>
-<section class="card step"><div class="n">6</div><div><strong>AI Studio</strong><p>Gör skärmarna till en app.</p><a class="btn" id="b6" href="https://aistudio.google.com/apps">Öppna AI Studio</a></div></section>
-<section class="card step"><div class="n">7</div><div><strong>Posta</strong><p>Blotato kopplar TikTok, Instagram och YouTube med deras egen inloggning.</p><a class="btn" href="https://my.blotato.com/">Koppla konton i Blotato</a></div></section>
-<section class="card"><button class="ghost" id="copy">Kopiera prompten</button></section>
+<section class="card">
+<strong>3. Reklamklon, svenska, alla</strong>
+<textarea id="script" rows="8"></textarea>
+<button id="copy">Kopiera texten</button>
+<p class="ok" id="msg"></p>
+</section>
+<section class="card">
+<strong>4. Posta</strong>
+<p>Texten kopieras. Sedan öppnas appen där du redan är inloggad. Publicera där. Den här sidan kan inte trycka publicera åt TikTok.</p>
+<a class="btn" id="tt" href="https://www.tiktok.com/upload">TikTok</a>
+<a class="btn" id="ig" href="https://www.instagram.com/">Instagram</a>
+<a class="btn ghost" href="https://my.blotato.com/">Blotato, om du vill posta på flera samtidigt</a>
+<small>Pomelli är borttagen. Den funkar inte i Sverige.</small>
+</section>
 </main>
 <script>
-const $=id=>document.getElementById(id);
-const key="flodet-v1";
-function pack(){return{amne:$("amne").value,sajt:$("sajt").value,mal:$("mal").value}}
-function load(){const s=JSON.parse(localStorage.getItem(key)||"{}");["amne","sajt","mal"].forEach(k=>{if(s[k])$(k).value=s[k]})}
-$("save").onclick=()=>{localStorage.setItem(key,JSON.stringify(pack()));$("saved").textContent="Sparat i den här telefonen."}
-function promptText(){const s=pack();return "Använd bara källorna. Skriv på svenska för "+(s.mal||"min målgrupp")+". Ämne: "+(s.amne||"saknas")+". Sajt: "+(s.sajt||"saknas")+". Ge 5 kärnpunkter, 3 invändningar, 5 rubriker och en FAQ. Skriv SAKNAS om något inte finns."}
-$("copy").onclick=async()=>{await navigator.clipboard.writeText(promptText());$("saved").textContent="Prompt kopierad."}
-["b1","b2","b3","b4","b5","b6"].forEach(id=>$(id).addEventListener("click",()=>navigator.clipboard.writeText(promptText()).catch(()=>{})));
-let deferred; window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e});
-$("install").onclick=async()=>{if(deferred){deferred.prompt();deferred=null}else $("installHelp").style.color="#d6ff4a"};
-if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
-load();
+const store = "https://vardigo.myshopify.com";
+const fallback = [
+  { title: "Rostfri groomingkam för hund och katt", price: "249 kr", handle: "collections/djur", image: "" },
+  { title: "LED-halsband för hund", price: "219 kr", handle: "collections/djur", image: "" },
+  { title: "Magnetiska lösögonfransar", price: "se butik", handle: "", image: "" }
+];
+let items = fallback;
+const prod = document.getElementById("prod");
+const pic = document.getElementById("pic");
+const script = document.getElementById("script");
+function fill() {
+  prod.innerHTML = "";
+  items.forEach((p, i) => {
+    const o = document.createElement("option");
+    o.value = i;
+    o.textContent = p.title;
+    prod.appendChild(o);
+  });
+  show();
+}
+function show() {
+  const p = items[prod.value] || items[0];
+  pic.style.display = p.image ? "block" : "none";
+  pic.src = p.image || "";
+  document.getElementById("price").textContent = p.price || "";
+  script.value = "Använd bara produktfakta. Skriv på svenska för alla.\n\nÄmne: Gör en reklamklon av en TikTok-video för den här produkten.\nProdukt: " + p.title + "\nPris: " + (p.price || "se sajten") + "\nSajt: " + store + (p.handle ? "/" + p.handle : "") + "\n\n15 sekunder. Hook i första sekunden. Visa produkten. En invändning. Avsluta med: länken i bio. Ingen påhittad recension.";
+}
+prod.onchange = show;
+document.getElementById("copy").onclick = async () => {
+  await navigator.clipboard.writeText(script.value);
+  document.getElementById("msg").textContent = "Kopierad. Klistra in i TikTok eller Blotato.";
+};
+["tt","ig"].forEach(id => document.getElementById(id).addEventListener("click", () => navigator.clipboard.writeText(script.value).catch(()=>{})));
+fetch(store + "/products.json?limit=20").then(r => r.json()).then(d => {
+  if (!d.products || !d.products.length) return;
+  items = d.products.map(p => ({
+    title: p.title,
+    price: (p.variants && p.variants[0] && p.variants[0].price) ? p.variants[0].price + " kr" : "",
+    handle: "products/" + p.handle,
+    image: (p.images && p.images[0] && p.images[0].src) || ""
+  }));
+  fill();
+}).catch(() => fill());
+fill();
 </script>
 </body>
 </html>
